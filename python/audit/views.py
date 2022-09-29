@@ -48,7 +48,7 @@ twilioClient = Client(accountSid, authToken)
 @csrf_exempt
 def index(request):
 
-    #print(f"Event: {request.POST}")
+    print(f"Event: {request.POST}")
 
     # Define a response object, in case a response to the sender is required
     resp = MessagingResponse()

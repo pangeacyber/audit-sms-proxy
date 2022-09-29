@@ -7,7 +7,7 @@ and redacted according to the redact rules set on the Pangea Console
 ***/
 exports.handler = function(context, event, callback) {
 
-  // console.log("Event:", event);
+  console.log("Event:", event);
 
   // Read the target recipients numbers from environment variables
   const ownerNumber = context.OWNER_NUMBER;
