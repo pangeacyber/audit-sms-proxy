@@ -28,8 +28,8 @@ exports.handler = function(context, event, callback) {
   const auditService = new Pangea.AuditService(auditToken, auditConfig);
 
   // Read the Twilio SID and Auth Token from the environment variables
-  const accountSid = context.ACCOUNT_SID;
-  const authToken = context.AUTH_TOKEN;
+  const accountSid = context.TWILIO_ACCOUNT_SID;
+  const authToken = context.TWILIO_AUTH_TOKEN;
 
   // Import the Twilio SDK
   const TwilioClient = require('twilio')(accountSid, authToken);

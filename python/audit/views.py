@@ -34,8 +34,8 @@ auditConfig = PangeaConfig(domain=pangeaDomain, config_id=auditConfigId)
 auditService = Audit(auditToken, config=auditConfig)
 
 # Read the Twilio SID and Auth Token from the environment variables
-accountSid = os.getenv("ACCOUNT_SID")
-authToken = os.getenv("AUTH_TOKEN")
+accountSid = os.getenv("TWILIO_ACCOUNT_SID")
+authToken = os.getenv("TWILIO_AUTH_TOKEN")
 
 # Import the Twilio SDK
 from twilio.rest import Client
