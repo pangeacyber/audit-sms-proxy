@@ -18,10 +18,9 @@ load_dotenv()
 ownerNumber = os.getenv("OWNER_NUMBER")
 targetNumber = os.getenv("TARGET_NUMBER")
 
-# Read the Pangea Config Id and Auth Token from the environment variables
+# Read the Pangea Domain and Auth Token from the environment variables
 pangeaDomain = os.getenv("PANGEA_DOMAIN")
 auditToken = os.getenv("PANGEA_AUTH_TOKEN")
-auditConfigId = os.getenv("PANGEA_CONFIG_ID")
 
 # Import the Pangea SDK
 from pangea.config import PangeaConfig
@@ -29,8 +28,8 @@ from pangea.services import Audit
 from pangea.services.audit import Event
 from pangea.services.audit import AuditException
 
-# Instantiate a Pangea Configuration object with the end point domain and configId
-auditConfig = PangeaConfig(domain=pangeaDomain, config_id=auditConfigId)
+# Instantiate a Pangea Configuration object with the end point domain
+auditConfig = PangeaConfig(domain=pangeaDomain)
 auditService = Audit(auditToken, config=auditConfig)
 
 # Read the Twilio SID and Auth Token from the environment variables

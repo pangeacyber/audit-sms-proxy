@@ -14,16 +14,14 @@ exports.handler = function(context, event, callback) {
   const targetNumber = context.TARGET_NUMBER;
 
   // Import the Pangea SDK
-  const Pangea = require('node-pangea');
+  const Pangea = require('pangea-node-sdk');
 
-  // Read the Pangea Config Id and Auth Token from the environment variables
+  // Read the Pangea Domain and Auth Token from the environment variables
   const pangeaDomain = context.PANGEA_DOMAIN;
   const auditToken = context.PANGEA_AUTH_TOKEN;
-  const auditConfigId = context.PANGEA_CONFIG_ID;
 
-  // Instantiate a Pangea Configuration object with the end point domain and configId
-  const auditConfig = new Pangea.PangeaConfig({ domain: pangeaDomain,
-    configId: auditConfigId});
+  // Instantiate a Pangea Configuration object with the end point domain
+  const auditConfig = new Pangea.PangeaConfig({ domain: pangeaDomain});
 
   const auditService = new Pangea.AuditService(auditToken, auditConfig);
 
@@ -85,8 +83,8 @@ exports.handler = function(context, event, callback) {
 
         console.log("Forwarding message to: ", destinationNumber);
 
-        // Remove the surrounding " " from the string returned by the Pangea service
-        const loggedMessage = response.result.envelope.event.message.slice(1, -1);
+        // Get the logged message returned by the Pangea Secure Audit Log service
+        const loggedMessage = response.result.envelope.event.message;
 
         // Send the logged message to the destination number
         TwilioClient.messages
@@ -94,7 +92,7 @@ exports.handler = function(context, event, callback) {
           .then((response) => {
 
             console.log("SMS successfully sent");
-
+            
             if(originalMessage !== loggedMessage) {
               // If the logged message was modified by the redact rule set,
               // notify the sender via an automated response
