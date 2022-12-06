@@ -25,8 +25,7 @@ auditToken = os.getenv("PANGEA_AUTH_TOKEN")
 # Import the Pangea SDK
 from pangea.config import PangeaConfig
 from pangea.services import Audit
-from pangea.services.audit import Event
-from pangea.services.audit import AuditException
+from pangea.services.audit.exceptions import AuditException
 
 # Instantiate a Pangea Configuration object with the end point domain
 auditConfig = PangeaConfig(domain=pangeaDomain)
@@ -73,17 +72,17 @@ def index(request):
     # Map the Twilio event details to the Pangea Event object, for example, the
     # source is set to the number that sent the message and the target is the
     # recipient.
-    auditData = Event(
-        actor=proxyNumber,
-        source=request.POST['From'],
-        target=destinationNumber,
-        message=originalMessage,
-        status=request.POST['SmsStatus'],
-        action="forwarded",
-    )
+    auditData = {
+        "actor": proxyNumber,
+        "source": request.POST['From'],
+        "target": destinationNumber,
+        "message": originalMessage,
+        "status": request.POST['SmsStatus'],
+        "action": "forwarded",
+    }
 
     try:
-        auditResponse = auditService.log(event=auditData, verbose=True)
+        auditResponse = auditService.log(**auditData, verbose=True)
         print(f"Response: {auditResponse.result.dict(exclude_none=True)}")
 
         if auditResponse.success:
